@@ -16,6 +16,7 @@ use Illuminate\Support\Str;
 
 Route::post('login', 'AuthController@login');
 Route::post('logout', 'AuthController@logout');
+Route::post('register', 'AuthController@register');
 
 Route::middleware('auth:api')->group(function () {
     Route::resource("message", 'MessagesController')->except([
