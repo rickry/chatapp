@@ -14,6 +14,7 @@
 use App\Messages;
 use Carbon\Carbon;
 use http\Client\Request;
+use Illuminate\Support\Facades\Storage;
 
 Route::get('/', function () {
     return view('welcome');
@@ -40,5 +41,9 @@ Route::get('test', function (){
 });
 
 Route::post('upload', function (){
-    request()->logo->store('logos');
+    request()->logo->store('logos')->name("file.zip");
 })->name('upload.store');
+
+Route::get('upload', function (){
+    \Illuminate\Support\Facades\Storage::get("file.zip");
+})->name('upload.index');
