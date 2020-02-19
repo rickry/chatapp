@@ -48,7 +48,7 @@ class AuthController extends Controller
     {
         $rules = [
             'name' => 'unique:users|required',
-            'email' => 'unique:users|required',
+            'email' => 'unique:users|required|email',
             'password' => 'required',
             'age' => 'min:12',
         ];

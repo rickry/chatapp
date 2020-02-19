@@ -13,6 +13,8 @@ use Illuminate\Support\Str;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+//Route::prefix('v1')->group(function () {
+//    Route::post('login', 'Auth\LoginController@login')->name('auth.login');
 
 Route::post('login', 'AuthController@login');
 Route::post('logout', 'AuthController@logout');
@@ -23,3 +25,4 @@ Route::middleware('auth:api')->group(function () {
         'edit', 'create'
     ]);
 });
+//});
