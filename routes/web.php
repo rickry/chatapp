@@ -13,8 +13,6 @@
 
 use App\Messages;
 use Carbon\Carbon;
-use http\Client\Request;
-use Illuminate\Support\Facades\Storage;
 
 Route::get('/', function () {
     return view('welcome');

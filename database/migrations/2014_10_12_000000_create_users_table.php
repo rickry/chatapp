@@ -22,6 +22,7 @@ class CreateUsersTable extends Migration
             $table->integer('role')->default(0);
             $table->string('api_token', 64)->nullable();
             $table->rememberToken();
+            $table->timestamp("last_online_at")->useCurrent();
             $table->timestamps();
         });
     }

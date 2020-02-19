@@ -81,8 +81,9 @@ class LoginController extends Controller
         $user->api_token = $user->api_token === null ? $api_token : $user->api_token;
         $api_token = $user->api_token === null ? $api_token : $user->api_token;
         $user->save();
+        $success = true;
 
-        return compact('user','api_token');
+        return compact('user','api_token', 'success');
     }
 
     /**
