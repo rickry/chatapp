@@ -11,6 +11,10 @@
 |
 */
 
+use App\Messages;
+use Carbon\Carbon;
+use http\Client\Request;
+
 Route::get('/', function () {
     return view('welcome');
 });
@@ -30,3 +34,11 @@ Route::middleware('auth')->group(function () {
     Route::get('/check', 'UsersController@userOnlineStatus');
 
 });
+Route::get('test', function (){
+    $count=Messages::select('created_at')->whereBetween('created_at', [Carbon::now()->subDays(30), Carbon::now()])->count();
+    dd($count);
+});
+
+Route::post('upload', function (){
+    request()->logo->store('logos');
+})->name('upload.store');

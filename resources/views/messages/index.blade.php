@@ -31,7 +31,7 @@
                                                         </div>
                                                         <div class="chat-footer">
                                                             <p class="text-smaller text-muted mb-0">Just now</p>
-                                                            <span class="badge badge-danger float-right">1</span>
+                                                            <span class="badge badge-danger float-right">{{rand(0,4)}}</span>
                                                         </div>
                                                     </a>
                                                 </li>

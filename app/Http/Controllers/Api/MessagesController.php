@@ -3,15 +3,16 @@
 namespace App\Http\Controllers\Api;
 
 use App\Messages;
-use App\User;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 class MessagesController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function index()
     {
@@ -23,26 +24,27 @@ class MessagesController extends Controller
      * Store a newly created resource in storage.
      *
      * @param Request $request
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function store(Request $request)
     {
-        $user = Auth::user();
-
-        $message = $user->messages()->create([
+        $message = auth()->user()->messages()->create([
             'message' => $request->input('message')
         ]);
 
-        return response()->json(['success' => true]);
+        return response()->json([
+            'success' => true,
+            'posted' => $message,
+        ]);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\messages  $messages
-     * @return \Illuminate\Http\Response
+     * @param \App\messages $messages
+     * @return Response
      */
-    public function show(messages $messages)
+    public function show(Messages $messages)
     {
         //
     }
@@ -50,11 +52,11 @@ class MessagesController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\messages  $messages
-     * @return \Illuminate\Http\Response
+     * @param Request $request
+     * @param \App\messages $messages
+     * @return Response
      */
-    public function update(Request $request, messages $messages)
+    public function update(Request $request, Messages $messages)
     {
         //
     }
@@ -62,11 +64,11 @@ class MessagesController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\messages  $messages
-     * @return \Illuminate\Http\Response
+     * @param \App\messages $messages
+     * @return JsonResponse
+     * @throws \Exception
      */
-    public function destroy(messages $messages)
+    public function destroy(Messages $messages)
     {
-        //
     }
 }
