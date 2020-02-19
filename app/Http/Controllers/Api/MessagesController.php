@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Messages;
+use App\User;
 use Illuminate\Http\Request;
 
 class MessagesController extends Controller
@@ -22,11 +23,17 @@ class MessagesController extends Controller
      * Store a newly created resource in storage.
      *
      * @param Request $request
-     * @return void
+     * @return \Illuminate\Http\JsonResponse
      */
     public function store(Request $request)
     {
-        auth()->user()->messages->create($request);
+        $user = Auth::user();
+
+        $message = $user->messages()->create([
+            'message' => $request->input('message')
+        ]);
+
+        return response()->json(['success' => true]);
     }
 
     /**
