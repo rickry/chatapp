@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\User;
 use Carbon\Carbon;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Cache;
@@ -13,7 +14,7 @@ class UsersController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\JsonResponse
+     * @return JsonResponse
      */
     public function index()
     {
@@ -27,14 +28,14 @@ class UsersController extends Controller
         foreach (User::all() as $user) {
             $online = false;
 //            if (Cache::has('user-is-online-' . $user->id))
-            if (Carbon::create($user->last_online_at)->diffInMinutes())
+            if (Carbon::create($user->last_online_at)->diffInMinutes() <= 4)
                 $online = true;
 
             $data[] = array(
                 "id" => $user->id,
                 "name" => $user->name,
                 "online" => $online,
-                "test" => $user->last_online_at->diffInMinutes(Carbon::now())
+                "minutesAgo" => Carbon::create($user->last_online_at)->diffInMinutes()
             );
         }
         return response()->json($data);
@@ -53,7 +54,7 @@ class UsersController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param Request $request
      * @return Response
      */
     public function store(Request $request)
@@ -86,7 +87,7 @@ class UsersController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param Request $request
      * @param int $id
      * @return Response
      */
