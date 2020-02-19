@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
 use App\User;
 use Illuminate\Http\Request;
@@ -22,7 +22,14 @@ class UsersController extends Controller
     public function userOnlineStatus()
     {
         $users = User::all();
-        return view('users.online', compact('users'));
+        foreach ($users as $user) {
+            if (Cache::has('user-is-online-' . $user->id))
+                $data[] = array(
+                    "name" => $user->name,
+                    "id" => $user->id,
+                );
+        }
+        return response()->json($data);
     }
 
     /**

@@ -17,14 +17,15 @@ Route::post('logout', 'Api\LoginController@logout');
 Route::post('register', 'Api\RegisterController@apiRegister');
 
 Route::middleware('auth:api')->group(function () {
-    Route::resource("message", 'MessagesController')->except([
+    Route::resource("message", 'Api\MessagesController')->except([
         'edit', 'create'
     ]);
 
-    Route::resource("users", 'UsersController')->except([
+    Route::resource("users", 'Api\UsersController')->except([
         'edit', 'create'
     ]);
 
+    Route::get('online', 'Api\UsersController@userOnlineStatus');
 
 });
 //});
