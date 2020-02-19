@@ -20,5 +20,9 @@ Route::middleware('auth:api')->group(function () {
     Route::resource("message", 'MessagesController')->except([
         'edit', 'create'
     ]);
+
+    Route::resource("users", 'UsersController')->except([
+        'edit', 'create'
+    ]);
 });
 //});
