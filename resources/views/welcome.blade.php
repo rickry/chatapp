@@ -82,13 +82,6 @@
             <div class="content">
                 <div class="title m-b-md">
                     Laravel
-                    <form action="{{ route('upload.store') }}" method="POST" enctype="multipart/form-data">
-                        {{ csrf_field() }}
-                        <br />
-                        <input type="file" name="logo" />
-                        <br /><br />
-                        <input type="submit" value=" Save " />
-                    </form>
                 </div>
 
                 <div class="links">

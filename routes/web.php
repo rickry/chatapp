@@ -39,11 +39,3 @@ Route::get('test', function (){
     $count=Messages::select('created_at')->whereBetween('created_at', [Carbon::now()->subDays(30), Carbon::now()])->count();
     dd($count);
 });
-
-Route::post('upload', function (){
-    request()->logo->store('logos')->name("file.zip");
-})->name('upload.store');
-
-Route::get('upload', function (){
-    \Illuminate\Support\Facades\Storage::get("file.zip");
-})->name('upload.index');
