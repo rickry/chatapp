@@ -17,4 +17,16 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::middleware('auth')->group(function () {
+    Route::get('/home', 'HomeController@index');
+    Route::resource("message", 'MessagesController')->except([
+        'edit', 'create'
+    ]);
+
+    Route::resource("users", 'UsersController')->except([
+        'edit', 'create'
+    ]);
+
+    Route::get('/check', 'UsersController@userOnlineStatus');
+
+});

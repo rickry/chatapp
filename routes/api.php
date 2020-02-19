@@ -12,9 +12,9 @@
 */
 
 //Route::prefix('v1')->group(function () {
-Route::post('login', 'Auth\LoginController@login')->name('auth.login');
-Route::post('logout', 'Auth\LoginController@logout');
-Route::post('register', 'Auth\RegisterController@apiRegister');
+Route::post('login', 'Api\LoginController@login')->name('auth.login');
+Route::post('logout', 'Api\LoginController@logout');
+Route::post('register', 'Api\RegisterController@apiRegister');
 
 Route::middleware('auth:api')->group(function () {
     Route::resource("message", 'MessagesController')->except([
@@ -24,5 +24,7 @@ Route::middleware('auth:api')->group(function () {
     Route::resource("users", 'UsersController')->except([
         'edit', 'create'
     ]);
+
+
 });
 //});

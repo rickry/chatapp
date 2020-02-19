@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
 use App\Messages;
 use Illuminate\Http\Request;
@@ -10,12 +10,12 @@ class MessagesController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     * @return \Illuminate\Http\JsonResponse
      */
     public function index()
     {
         $messages = Messages::all();
-        return view('messages.index', compact('messages'));
+        return response()->json($messages);
     }
 
     /**
