@@ -17,6 +17,7 @@ class MessagesController extends Controller
     public function index()
     {
         $messages = Messages::all();
+        $messages->load('user');
         return response()->json($messages);
     }
 
