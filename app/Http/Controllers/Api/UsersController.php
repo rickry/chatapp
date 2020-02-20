@@ -27,7 +27,6 @@ class UsersController extends Controller
         $data = [];
         foreach (User::all() as $user) {
             $online = false;
-//            if (Cache::has('user-is-online-' . $user->id))
             $lastOnline = Carbon::create($user->last_online_at);
             if ($lastOnline->diffInMinutes() <= 4)
                 $online = true;
