@@ -28,14 +28,16 @@ class UsersController extends Controller
         foreach (User::all() as $user) {
             $online = false;
 //            if (Cache::has('user-is-online-' . $user->id))
-            if (Carbon::create($user->last_online_at)->diffInMinutes() <= 4)
+            $lastOnline = Carbon::create($user->last_online_at);
+            if ($lastOnline->diffInMinutes() <= 4)
                 $online = true;
 
             $data[] = array(
                 "id" => $user->id,
                 "name" => $user->name,
                 "online" => $online,
-                "minutesAgo" => Carbon::create($user->last_online_at)->diffInMinutes()
+                "minutesAgo" => $lastOnline->diffInMinutes(),
+                "forHumans" => $lastOnline->diffForHumans()
             );
         }
         return response()->json($data);

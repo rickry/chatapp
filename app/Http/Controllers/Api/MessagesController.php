@@ -6,6 +6,7 @@ use App\Messages;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
+use Illuminate\Support\Carbon;
 
 class MessagesController extends Controller
 {
@@ -18,6 +19,12 @@ class MessagesController extends Controller
     {
         $messages = Messages::all();
         $messages->load('user');
+        return response()->json($messages);
+    }
+
+    public function byDate(Request $request)
+    {
+        $messages = Messages::where('created_at', '>=', $request->input('date'))->get();
         return response()->json($messages);
     }
 
@@ -39,11 +46,16 @@ class MessagesController extends Controller
         ]);
     }
 
+    public function getChatsByID(Request $request){
+
+    }
+
+
     /**
      * Display the specified resource.
      *
      * @param \App\messages $messages
-     * @return Response
+     * @return void
      */
     public function show(Messages $messages)
     {
