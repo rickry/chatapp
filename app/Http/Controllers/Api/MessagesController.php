@@ -24,6 +24,7 @@ class MessagesController extends Controller
     public function byDate($date)
     {
         $messages = Messages::where('created_at', '>=', $date)->get();
+        $messages->load("user");
         return response()->json($messages);
     }
 
