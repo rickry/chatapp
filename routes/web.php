@@ -11,14 +11,16 @@
 |
 */
 
-use App\Messages;
-use Carbon\Carbon;
+use App\Mail\sendRegisterToken;
+use App\User;
+use Illuminate\Support\Facades\Mail;
 
 Route::get('/', function () {
     return view('welcome');
 });
 
-Auth::routes();
+Auth::routes(['verify' => true]);
+Route::get('confirm/user/{register_token}', 'UsersController@verifyToken')->name("verify.email");
 
 Route::middleware('auth')->group(function () {
     Route::get('/home', 'HomeController@index');
@@ -30,10 +32,13 @@ Route::middleware('auth')->group(function () {
         'edit', 'create'
     ]);
 
-    Route::get('/check', 'UsersController@userOnlineStatus');
+    Route::get('/online', 'UsersController@userOnlineStatus');
 
 });
-Route::get('test', function (){
-    $count=Messages::select('created_at')->whereBetween('created_at', [Carbon::now()->subDays(30), Carbon::now()])->count();
-    dd($count);
+Route::get('test', function () {
+    $user = new stdClass;
+    $user->name = "rick";
+    $user->email = "r.stoit@gmail.com";
+    $user->register_token = "kaas";
+    return Mail::to($user->email)->send(new sendRegisterToken($user));
 });

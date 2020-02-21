@@ -16,7 +16,7 @@ Route::post('login', 'Api\LoginController@login')->name('auth.login');
 Route::post('logout', 'Api\LoginController@logout');
 Route::post('register', 'Api\RegisterController@apiRegister');
 
-Route::middleware('auth:api')->group(function () {
+Route::middleware('auth:api:verified')->group(function () {
     Route::post("message/date", "Api\MessagesController@byDate");
     Route::resource("message", 'Api\MessagesController')->except([
         'edit', 'create'
@@ -25,8 +25,6 @@ Route::middleware('auth:api')->group(function () {
     Route::resource("users", 'Api\UsersController')->except([
         'edit', 'create'
     ]);
-
     Route::get('online', 'Api\UsersController@userOnlineStatus');
-
 });
 //});

@@ -3,11 +3,15 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Mail\sendRegisterToken;
 use App\Providers\RouteServiceProvider;
 use App\User;
+use Carbon\Carbon;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Validator;
 
 class RegisterController extends Controller
@@ -57,21 +61,6 @@ class RegisterController extends Controller
         ]);
     }
 
-    /**
-     * Create a new user instance after a valid registration.
-     *
-     * @param  array  $data
-     * @return \App\User
-     */
-    protected function create(array $data)
-    {
-        return User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => Hash::make($data['password']),
-        ]);
-    }
-
     public function apiRegister(Request $request)
     {
         $rules = [
@@ -86,11 +75,20 @@ class RegisterController extends Controller
         if ($validator->fails()) {
             return response()->json(['success' => false, 'error' => $validator->messages()]);
         }
+        $token = sha1(uniqid());
+
         $name = $request->name;
         $email = $request->email;
         $password = $request->password;
-        $user = User::create(['name' => $name, 'email' => $email, 'password' => Hash::make($password)]);
-        $success = true;
-        return response()->json($user, $success);
+
+        $tokenUrl = URL::temporarySignedRoute(
+            'verify.email', now()->addMinutes(60), ['register_token' => $token]
+        );
+
+        $user = User::create(['name' => $name, 'email' => $email, 'password' => Hash::make($password), "register_token" => $token]);
+
+        Mail::to($user->email)->send(new sendRegisterToken($user, $tokenUrl));
+
+        return response()->json(["success"=> true]);
     }
 }

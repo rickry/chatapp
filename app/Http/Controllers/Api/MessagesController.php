@@ -6,7 +6,6 @@ use App\Messages;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
-use Illuminate\Support\Carbon;
 
 class MessagesController extends Controller
 {
@@ -45,11 +44,6 @@ class MessagesController extends Controller
             'posted' => $message,
         ]);
     }
-
-    public function getChatsByID(Request $request){
-
-    }
-
 
     /**
      * Display the specified resource.

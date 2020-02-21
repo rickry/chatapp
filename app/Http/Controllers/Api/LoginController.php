@@ -105,37 +105,4 @@ class LoginController extends Controller
 
         return compact('user');
     }
-
-    /**
-     * @param Request $request
-     * @return array|Response|void
-     * @throws ValidationException
-     */
-    public function activate(Request $request)
-    {
-        $this->validate($request, [
-            'token'    => 'required',
-            'email'    => 'required',
-            'password' => [
-                'confirmed',
-                'required',
-                'min:6',
-            ],
-        ]);
-
-        // find invite object or fail
-        $invite = Invite::where('token', $request->get('token'))
-            ->where('email', $request->get('email'))
-            ->firstOrFail();
-
-        // get user and set password
-        $user           = User::where('email', $request->get('email'))->first();
-        $user->password = $request->get('password');
-        $user->save();
-
-        // cleanup afterwards
-        $invite->delete();
-
-        return (new LoginController())->login($request);
-    }
 }

@@ -25,7 +25,7 @@ class LastUserActivity
 //            Cache::put('user-is-online-' . Auth::user()->id, true, $expiresAt);
 //        }
         if (auth()->check()) {
-//            auth()->user()->update(["last_online_at" => now()]);
+            auth()->user()->update(["last_online_at" => now()]);
         }
 
         return $next($request);
