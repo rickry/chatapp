@@ -19,6 +19,7 @@ class sendRegisterToken extends Mailable
      * Create a new message instance.
      *
      * @param $user
+     * @param $tokenUrl
      */
     public function __construct($user, $tokenUrl)
     {

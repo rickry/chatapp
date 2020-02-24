@@ -21,6 +21,7 @@ class CreateUsersTable extends Migration
             $table->integer('role')->default(0);
             $table->string('api_token', 64)->nullable();
             $table->string('register_token', 64)->nullable();
+            $table->string('dc_name', 64)->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->rememberToken();
             $table->timestamp("last_online_at")->useCurrent();
